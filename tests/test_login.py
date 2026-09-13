@@ -1,15 +1,16 @@
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
 
 BASE_URL = "https://www.saucedemo.com/"
 
 
-def test_login_valido_lleva_al_inventario(driver):
+def test_login_valido_lleva_al_inventario(driver, wait):
     driver.get(BASE_URL)
     driver.find_element(By.ID, "user-name").send_keys("standard_user")
     driver.find_element(By.ID, "password").send_keys("secret_sauce")
     driver.find_element(By.ID, "login-button").click()
 
-    assert "inventory.html" in driver.current_url
+    wait.until(EC.url_contains("inventory.html"))
     titulo = driver.find_element(By.CLASS_NAME, "title")
     assert titulo.text == "Products"
 
